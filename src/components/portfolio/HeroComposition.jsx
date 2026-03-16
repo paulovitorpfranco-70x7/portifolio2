@@ -6,34 +6,42 @@ const defaultPieces = [];
 
 const compositionPhases = [
   {
-    "silabala-plus": { x: 19.5, y: 41.5, radius: "3rem" },
-    datacheck: { x: 57, y: 25, radius: "50%" },
-    "crystal-flow": { x: 80, y: 47, radius: "6.5rem" },
-    "ai-lab": { x: 42, y: 77, radius: "999px 999px 0 0" },
+    "silabala-plus": { x: 18.5, y: 50, radius: "3rem" },
+    datacheck: { x: 53.5, y: 27, radius: "50%" },
+    "crystal-flow": { x: 79, y: 62, radius: "6.5rem" },
+    "ai-lab": { x: 43, y: 81, radius: "999px 999px 0 0" },
   },
   {
-    "silabala-plus": { x: 22.5, y: 44, radius: "4rem 1.1rem 1.1rem 4rem" },
+    "silabala-plus": { x: 21.5, y: 48, radius: "4rem 1.1rem 1.1rem 4rem" },
     datacheck: {
-      x: 53.5,
-      y: 28,
+      x: 51.5,
+      y: 30,
       radius: "43% 57% 49% 51% / 48% 46% 54% 52%",
     },
-    "crystal-flow": { x: 75.5, y: 44.5, radius: "1.1rem 4rem 4rem 1.1rem" },
-    "ai-lab": { x: 44.5, y: 73.5, radius: "6rem 6rem 1.5rem 1.5rem" },
+    "crystal-flow": { x: 76.5, y: 65, radius: "1.1rem 4rem 4rem 1.1rem" },
+    "ai-lab": { x: 45.5, y: 78.5, radius: "6rem 6rem 1.5rem 1.5rem" },
   },
   {
-    "silabala-plus": { x: 20.5, y: 39, radius: "2.2rem 4.4rem 2.2rem 4.4rem" },
-    datacheck: { x: 58.5, y: 26.5, radius: "50%" },
-    "crystal-flow": { x: 78.5, y: 41.5, radius: "4.4rem 2.2rem 4.4rem 2.2rem" },
-    "ai-lab": { x: 47, y: 75.5, radius: "999px 999px 0 0" },
+    "silabala-plus": { x: 20, y: 52.5, radius: "2.2rem 4.4rem 2.2rem 4.4rem" },
+    datacheck: { x: 56.5, y: 24.5, radius: "50%" },
+    "crystal-flow": { x: 78.5, y: 67, radius: "4.4rem 2.2rem 4.4rem 2.2rem" },
+    "ai-lab": { x: 48, y: 82, radius: "999px 999px 0 0" },
   },
   {
-    "silabala-plus": { x: 17.5, y: 46, radius: "4.6rem 1rem 3rem 1rem" },
-    datacheck: { x: 53, y: 23, radius: "50%" },
-    "crystal-flow": { x: 81.5, y: 50.5, radius: "1rem 4.6rem 1rem 3rem" },
-    "ai-lab": { x: 46, y: 79, radius: "999px 999px 0 0" },
+    "silabala-plus": { x: 17.5, y: 47.5, radius: "4.6rem 1rem 3rem 1rem" },
+    datacheck: { x: 52.5, y: 28, radius: "50%" },
+    "crystal-flow": { x: 81.5, y: 63.5, radius: "1rem 4.6rem 1rem 3rem" },
+    "ai-lab": { x: 44.5, y: 79.5, radius: "999px 999px 0 0" },
   },
 ];
+
+const staffLines = [18, 34, 50, 66, 82];
+const measureBars = [12, 38, 64, 90];
+const tempoModes = {
+  adagio: { label: "Adagio", interval: 3100, playheadDuration: 10.5 },
+  moderato: { label: "Moderato", interval: 2300, playheadDuration: 7.4 },
+  allegro: { label: "Allegro", interval: 1700, playheadDuration: 5.1 },
+};
 
 function toCssSize(value) {
   return typeof value === "number" ? `${value}px` : value;
@@ -54,6 +62,10 @@ function getPieceDimensions(piece) {
 
 function getTextColor(piece) {
   return piece.color === "#ffd541" ? "#242424" : "#FFFFFF";
+}
+
+function getStemColor(piece) {
+  return piece.color === "#ffd541" ? "rgba(36, 36, 36, 0.34)" : "rgba(255, 255, 255, 0.42)";
 }
 
 function RoundedRectSurface({ piece, radius, isHovered }) {
@@ -207,6 +219,49 @@ function HalfCircleSurface({ piece, radius, isHovered }) {
   );
 }
 
+function PieceStem({ piece, isHovered }) {
+  if (!piece.stemDirection) {
+    return null;
+  }
+
+  const stemLength = piece.stemLength ?? "clamp(48px, 6vw, 84px)";
+  const stemColor = getStemColor(piece);
+  const sideClass =
+    piece.stemSide === "left"
+      ? "left-[15%]"
+      : piece.stemSide === "center"
+        ? "left-1/2 -translate-x-1/2"
+        : "right-[15%]";
+
+  const stemStyle =
+    piece.stemDirection === "up"
+      ? { bottom: "calc(100% + 0.45rem)", height: stemLength, background: stemColor }
+      : { top: "calc(100% + 0.45rem)", height: stemLength, background: stemColor };
+
+  const headStyle =
+    piece.stemDirection === "up"
+      ? { bottom: `calc(100% + ${stemLength} + 0.3rem)`, background: stemColor }
+      : { top: `calc(100% + ${stemLength} + 0.3rem)`, background: stemColor };
+  const originClass = piece.stemDirection === "up" ? "origin-bottom" : "origin-top";
+
+  return (
+    <>
+      <motion.div
+        className={`absolute ${sideClass} w-px ${originClass}`}
+        style={stemStyle}
+        animate={{ opacity: isHovered ? 0.82 : 0.45, scaleY: isHovered ? 1.06 : 1 }}
+        transition={{ duration: 0.3 }}
+      />
+      <motion.div
+        className={`absolute ${sideClass} h-2.5 w-2.5 rounded-full`}
+        style={headStyle}
+        animate={{ opacity: isHovered ? 0.92 : 0.62, scale: isHovered ? 1.12 : 1 }}
+        transition={{ duration: 0.3 }}
+      />
+    </>
+  );
+}
+
 const surfaceMap = {
   "rounded-rect": RoundedRectSurface,
   circle: CircleSurface,
@@ -216,23 +271,64 @@ const surfaceMap = {
 export default function HeroComposition({ pieces = defaultPieces, className = "" }) {
   const [hoveredId, setHoveredId] = useState(null);
   const [phaseIndex, setPhaseIndex] = useState(0);
+  const [tempoKey, setTempoKey] = useState("moderato");
   const navigate = useNavigate();
+  const tempo = tempoModes[tempoKey];
 
   useEffect(() => {
     const interval = window.setInterval(() => {
       setPhaseIndex((current) => (current + 1) % compositionPhases.length);
-    }, 2100);
+    }, tempo.interval);
 
     return () => window.clearInterval(interval);
-  }, []);
+  }, [tempo.interval]);
 
   return (
     <div
       className={`relative h-[clamp(420px,64svh,560px)] w-full overflow-hidden sm:h-[clamp(470px,66svh,600px)] lg:h-[clamp(500px,68svh,620px)] ${className}`}
     >
+      <div className="absolute right-0 top-0 z-20 flex items-center gap-3 rounded-full border border-stone-200/80 bg-white/72 px-3 py-2 text-[0.62rem] font-medium uppercase tracking-[0.28em] text-stone-500 shadow-sm shadow-stone-950/5 backdrop-blur-sm">
+        <span className="text-stone-400">Tempo</span>
+        <div className="flex items-center gap-1.5">
+          {Object.entries(tempoModes).map(([key, option]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setTempoKey(key)}
+              className={`rounded-full px-2.5 py-1 transition-colors ${
+                tempoKey === key
+                  ? "bg-stone-950 text-stone-50"
+                  : "bg-transparent text-stone-500 hover:bg-stone-950/6 hover:text-stone-950"
+              }`}
+              aria-pressed={tempoKey === key}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="absolute inset-x-3 bottom-4 top-3 sm:inset-x-6 sm:bottom-6 sm:top-5 lg:inset-x-8 lg:bottom-8 lg:top-6">
         <div className="pointer-events-none absolute inset-0">
-          {[18, 34, 50, 66, 82].map((top, index) => (
+          <motion.div
+            className="absolute inset-y-1 left-0 w-px bg-gradient-to-b from-transparent via-stone-500/35 to-transparent"
+            animate={{ x: ["0%", "100%"] }}
+            transition={{
+              duration: tempo.playheadDuration,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "linear",
+            }}
+          />
+
+          {measureBars.map((left) => (
+            <div
+              key={left}
+              className="absolute bottom-0 top-0 w-px bg-stone-300/40"
+              style={{ left: `${left}%` }}
+            />
+          ))}
+
+          {staffLines.map((top, index) => (
             <motion.div
               key={top}
               className="absolute left-0 right-0 h-px bg-stone-300/70"
@@ -246,6 +342,10 @@ export default function HeroComposition({ pieces = defaultPieces, className = ""
               }}
             />
           ))}
+
+          <div className="absolute left-0 top-0 text-[0.62rem] font-medium uppercase tracking-[0.28em] text-stone-400">
+            Score for selected work
+          </div>
         </div>
 
         {pieces.map((piece) => {
@@ -298,6 +398,8 @@ export default function HeroComposition({ pieces = defaultPieces, className = ""
               tabIndex={isInteractive ? 0 : undefined}
               aria-label={isInteractive ? `Open ${piece.name}` : undefined}
             >
+              <PieceStem piece={piece} isHovered={isHovered} />
+
               <motion.div
                 className="absolute -inset-6 rounded-full blur-3xl"
                 style={{ background: piece.hoverColor }}

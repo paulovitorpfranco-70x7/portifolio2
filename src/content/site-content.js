@@ -40,12 +40,15 @@ export const projectCases = [
     },
     piece: {
       shape: "rounded-rect",
-      x: 19.5,
-      y: 41.5,
+      x: 18.5,
+      y: 50,
       width: "clamp(176px, 19vw, 220px)",
       height: "clamp(165px, 18vw, 205px)",
       color: "#69b987",
       hoverColor: "#59aa77",
+      stemDirection: "up",
+      stemSide: "right",
+      stemLength: "clamp(54px, 6vw, 96px)",
     },
     sections: [
       {
@@ -98,11 +101,14 @@ export const projectCases = [
     },
     piece: {
       shape: "circle",
-      x: 57,
-      y: 25,
+      x: 53.5,
+      y: 27,
       size: "clamp(178px, 20vw, 220px)",
       color: "#ffd541",
       hoverColor: "#f3ca31",
+      stemDirection: "down",
+      stemSide: "center",
+      stemLength: "clamp(32px, 4vw, 58px)",
     },
     sections: [
       {
@@ -155,12 +161,15 @@ export const projectCases = [
     },
     piece: {
       shape: "rounded-rect",
-      x: 80,
-      y: 47,
+      x: 79,
+      y: 62,
       width: "clamp(188px, 21vw, 232px)",
       height: "clamp(176px, 19vw, 220px)",
       color: "#2f2f2f",
       hoverColor: "#1f1f1f",
+      stemDirection: "up",
+      stemSide: "left",
+      stemLength: "clamp(48px, 5vw, 88px)",
     },
     sections: [
       {
@@ -213,11 +222,14 @@ export const projectCases = [
     },
     piece: {
       shape: "half-circle",
-      x: 42,
-      y: 77,
+      x: 43,
+      y: 81,
       size: "clamp(188px, 21vw, 238px)",
       color: "#5d8dbc",
       hoverColor: "#4e7ca8",
+      stemDirection: "up",
+      stemSide: "center",
+      stemLength: "clamp(42px, 4vw, 72px)",
     },
     sections: [
       {

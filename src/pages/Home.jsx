@@ -17,15 +17,6 @@ export default function Home() {
         Paulo Vitor
       </Link>
 
-      <div className="absolute left-6 top-20 z-10 max-w-[18rem] space-y-3 sm:left-8 sm:top-24">
-        <p className="text-[0.62rem] font-medium uppercase tracking-[0.32em] text-stone-400">
-          Visual Score 01
-        </p>
-        <p className="text-sm leading-6 text-stone-500 sm:text-[0.95rem] sm:leading-7">
-          Selected works arranged as notes on a moving staff. Tune the pace and open each case like a solo.
-        </p>
-      </div>
-
       <div className="absolute bottom-6 right-6 z-10 flex gap-4 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-stone-500">
         <Link to="/projects" className="transition-colors hover:text-stone-950">
           Projects
