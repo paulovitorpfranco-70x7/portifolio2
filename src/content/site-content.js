@@ -40,8 +40,8 @@ export const projectCases = [
     },
     piece: {
       shape: "rounded-rect",
-      x: 18,
-      y: 36,
+      x: 19.5,
+      y: 41.5,
       width: "clamp(176px, 19vw, 220px)",
       height: "clamp(165px, 18vw, 205px)",
       color: "#69b987",
@@ -98,8 +98,8 @@ export const projectCases = [
     },
     piece: {
       shape: "circle",
-      x: 48,
-      y: 18,
+      x: 57,
+      y: 25,
       size: "clamp(178px, 20vw, 220px)",
       color: "#ffd541",
       hoverColor: "#f3ca31",
@@ -155,8 +155,8 @@ export const projectCases = [
     },
     piece: {
       shape: "rounded-rect",
-      x: 70,
-      y: 42,
+      x: 80,
+      y: 47,
       width: "clamp(188px, 21vw, 232px)",
       height: "clamp(176px, 19vw, 220px)",
       color: "#2f2f2f",
@@ -213,8 +213,8 @@ export const projectCases = [
     },
     piece: {
       shape: "half-circle",
-      x: 32,
-      y: 68,
+      x: 42,
+      y: 77,
       size: "clamp(188px, 21vw, 238px)",
       color: "#5d8dbc",
       hoverColor: "#4e7ca8",

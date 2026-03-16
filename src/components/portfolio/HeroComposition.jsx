@@ -6,32 +6,32 @@ const defaultPieces = [];
 
 const compositionPhases = [
   {
-    "silabala-plus": { x: 18, y: 31, radius: "3rem" },
-    datacheck: { x: 47.5, y: 12.5, radius: "50%" },
-    "crystal-flow": { x: 69.5, y: 36.5, radius: "6.5rem" },
-    "ai-lab": { x: 32, y: 60.5, radius: "999px 999px 0 0" },
+    "silabala-plus": { x: 19.5, y: 41.5, radius: "3rem" },
+    datacheck: { x: 57, y: 25, radius: "50%" },
+    "crystal-flow": { x: 80, y: 47, radius: "6.5rem" },
+    "ai-lab": { x: 42, y: 77, radius: "999px 999px 0 0" },
   },
   {
-    "silabala-plus": { x: 22, y: 33, radius: "4rem 1.1rem 1.1rem 4rem" },
+    "silabala-plus": { x: 22.5, y: 44, radius: "4rem 1.1rem 1.1rem 4rem" },
     datacheck: {
-      x: 40.5,
-      y: 18.5,
+      x: 53.5,
+      y: 28,
       radius: "43% 57% 49% 51% / 48% 46% 54% 52%",
     },
-    "crystal-flow": { x: 58.7, y: 33.7, radius: "1.1rem 4rem 4rem 1.1rem" },
-    "ai-lab": { x: 33.2, y: 52.5, radius: "6rem 6rem 1.5rem 1.5rem" },
+    "crystal-flow": { x: 75.5, y: 44.5, radius: "1.1rem 4rem 4rem 1.1rem" },
+    "ai-lab": { x: 44.5, y: 73.5, radius: "6rem 6rem 1.5rem 1.5rem" },
   },
   {
-    "silabala-plus": { x: 20.5, y: 28.5, radius: "2.2rem 4.4rem 2.2rem 4.4rem" },
-    datacheck: { x: 47.5, y: 19.5, radius: "50%" },
-    "crystal-flow": { x: 64.5, y: 30.2, radius: "4.4rem 2.2rem 4.4rem 2.2rem" },
-    "ai-lab": { x: 37, y: 54, radius: "999px 999px 0 0" },
+    "silabala-plus": { x: 20.5, y: 39, radius: "2.2rem 4.4rem 2.2rem 4.4rem" },
+    datacheck: { x: 58.5, y: 26.5, radius: "50%" },
+    "crystal-flow": { x: 78.5, y: 41.5, radius: "4.4rem 2.2rem 4.4rem 2.2rem" },
+    "ai-lab": { x: 47, y: 75.5, radius: "999px 999px 0 0" },
   },
   {
-    "silabala-plus": { x: 17.8, y: 35.5, radius: "4.6rem 1rem 3rem 1rem" },
-    datacheck: { x: 44.2, y: 12, radius: "50%" },
-    "crystal-flow": { x: 66.5, y: 39.5, radius: "1rem 4.6rem 1rem 3rem" },
-    "ai-lab": { x: 38.5, y: 57, radius: "999px 999px 0 0" },
+    "silabala-plus": { x: 17.5, y: 46, radius: "4.6rem 1rem 3rem 1rem" },
+    datacheck: { x: 53, y: 23, radius: "50%" },
+    "crystal-flow": { x: 81.5, y: 50.5, radius: "1rem 4.6rem 1rem 3rem" },
+    "ai-lab": { x: 46, y: 79, radius: "999px 999px 0 0" },
   },
 ];
 
@@ -227,82 +227,89 @@ export default function HeroComposition({ pieces = defaultPieces, className = ""
   }, []);
 
   return (
-    <div className={`relative w-full min-h-[500px] sm:min-h-[580px] lg:min-h-[640px] ${className}`}>
-      <div className="pointer-events-none absolute inset-0">
-        {[24, 36, 48, 60, 72].map((top, index) => (
-          <motion.div
-            key={top}
-            className="absolute left-0 right-0 h-px bg-stone-300/70"
-            style={{ top: `${top}%` }}
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{
-              duration: 1.3,
-              delay: 0.25 + index * 0.08,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-          />
-        ))}
-      </div>
-
-      {pieces.map((piece, index) => {
-        const Surface = surfaceMap[piece.shape] ?? RoundedRectSurface;
-        const isHovered = hoveredId === piece.id;
-        const activePhase = compositionPhases[phaseIndex]?.[piece.id] ?? {
-          x: piece.x,
-          y: piece.y,
-          radius: piece.shape === "half-circle" ? "999px 999px 0 0" : piece.shape === "circle" ? "50%" : "3rem",
-        };
-        const isInteractive = Boolean(piece.href);
-
-        return (
-          <motion.div
-            key={piece.id}
-            className={`absolute ${isInteractive ? "cursor-pointer" : ""}`}
-            style={{ left: `${piece.x}%`, top: `${piece.y}%` }}
-            initial={{ opacity: 0, scale: 0.78, y: 28 }}
-            animate={{
-              left: `${activePhase.x}%`,
-              top: `${activePhase.y}%`,
-              opacity: 1,
-              scale: isHovered ? 1.02 : 1,
-              y: isHovered ? -10 : 0,
-            }}
-            transition={{
-              opacity: { duration: 0.8, delay: piece.delay },
-              scale: { duration: 0.28, ease: [0.25, 0.1, 0.25, 1] },
-              left: { duration: 0.9, ease: [0.65, 0, 0.35, 1] },
-              top: { duration: 0.9, ease: [0.65, 0, 0.35, 1] },
-              y: { duration: 0.24 },
-            }}
-            onHoverStart={() => setHoveredId(piece.id)}
-            onHoverEnd={() => setHoveredId(null)}
-            onClick={() => {
-              if (piece.href) {
-                navigate(piece.href);
-              }
-            }}
-            onKeyDown={(event) => {
-              if (piece.href && (event.key === "Enter" || event.key === " ")) {
-                event.preventDefault();
-                navigate(piece.href);
-              }
-            }}
-            role={isInteractive ? "button" : undefined}
-            tabIndex={isInteractive ? 0 : undefined}
-            aria-label={isInteractive ? `Open ${piece.name}` : undefined}
-          >
+    <div
+      className={`relative h-[clamp(420px,64svh,560px)] w-full overflow-hidden sm:h-[clamp(470px,66svh,600px)] lg:h-[clamp(500px,68svh,620px)] ${className}`}
+    >
+      <div className="absolute inset-x-3 bottom-4 top-3 sm:inset-x-6 sm:bottom-6 sm:top-5 lg:inset-x-8 lg:bottom-8 lg:top-6">
+        <div className="pointer-events-none absolute inset-0">
+          {[18, 34, 50, 66, 82].map((top, index) => (
             <motion.div
-              className="absolute -inset-7 rounded-full blur-3xl"
-              style={{ background: piece.hoverColor }}
-              animate={{ opacity: isHovered ? 0.12 : 0 }}
-              transition={{ duration: 0.35 }}
+              key={top}
+              className="absolute left-0 right-0 h-px bg-stone-300/70"
+              style={{ top: `${top}%` }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{
+                duration: 1.3,
+                delay: 0.25 + index * 0.08,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
             />
+          ))}
+        </div>
 
-            <Surface piece={piece} radius={activePhase.radius} isHovered={isHovered} />
-          </motion.div>
-        );
-      })}
+        {pieces.map((piece) => {
+          const Surface = surfaceMap[piece.shape] ?? RoundedRectSurface;
+          const isHovered = hoveredId === piece.id;
+          const activePhase = compositionPhases[phaseIndex]?.[piece.id] ?? {
+            x: piece.x,
+            y: piece.y,
+            radius: piece.shape === "half-circle" ? "999px 999px 0 0" : piece.shape === "circle" ? "50%" : "3rem",
+          };
+          const isInteractive = Boolean(piece.href);
+
+          return (
+            <motion.div
+              key={piece.id}
+              className={`absolute ${isInteractive ? "cursor-pointer" : ""}`}
+              style={{ left: `${piece.x}%`, top: `${piece.y}%` }}
+              transformTemplate={(_, generatedTransform) =>
+                `translate(-50%, -50%) ${generatedTransform ?? ""}`
+              }
+              initial={{ opacity: 0, scale: 0.78, y: 28 }}
+              animate={{
+                left: `${activePhase.x}%`,
+                top: `${activePhase.y}%`,
+                opacity: 1,
+                scale: isHovered ? 1.02 : 1,
+                y: isHovered ? -10 : 0,
+              }}
+              transition={{
+                opacity: { duration: 0.8, delay: piece.delay },
+                scale: { duration: 0.28, ease: [0.25, 0.1, 0.25, 1] },
+                left: { duration: 0.9, ease: [0.65, 0, 0.35, 1] },
+                top: { duration: 0.9, ease: [0.65, 0, 0.35, 1] },
+                y: { duration: 0.24 },
+              }}
+              onHoverStart={() => setHoveredId(piece.id)}
+              onHoverEnd={() => setHoveredId(null)}
+              onClick={() => {
+                if (piece.href) {
+                  navigate(piece.href);
+                }
+              }}
+              onKeyDown={(event) => {
+                if (piece.href && (event.key === "Enter" || event.key === " ")) {
+                  event.preventDefault();
+                  navigate(piece.href);
+                }
+              }}
+              role={isInteractive ? "button" : undefined}
+              tabIndex={isInteractive ? 0 : undefined}
+              aria-label={isInteractive ? `Open ${piece.name}` : undefined}
+            >
+              <motion.div
+                className="absolute -inset-6 rounded-full blur-3xl"
+                style={{ background: piece.hoverColor }}
+                animate={{ opacity: isHovered ? 0.12 : 0 }}
+                transition={{ duration: 0.35 }}
+              />
+
+              <Surface piece={piece} radius={activePhase.radius} isHovered={isHovered} />
+            </motion.div>
+          );
+        })}
+      </div>
     </div>
   );
 }
