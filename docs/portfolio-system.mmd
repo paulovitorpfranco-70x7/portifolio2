@@ -1,0 +1,18 @@
+flowchart TD
+    A[Visitor Browser] --> B[React + Vite Portfolio]
+    B --> C[Local Typed Content]
+    B --> D[UI Sections]
+    D --> D1[Hero]
+    D --> D2[Projects]
+    D --> D3[Stack]
+    D --> D4[Process]
+    D --> D5[Contact]
+    B --> E[Supabase Services]
+    E --> E1[contact_messages]
+    E --> E2[projects optional]
+    E --> E3[site_settings optional]
+    E --> E4[storage optional]
+    C -. fallback .-> D2
+    E2 -. hydrate or replace .-> D2
+    E1 --> F[Lead Storage]
+    B --> G[SEO Metadata + Analytics Optional]
